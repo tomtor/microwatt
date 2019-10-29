@@ -84,7 +84,24 @@ filesets:
       - fpga/cmod_a7-35.xdc : {file_type : xdc}
       - fpga/clk_gen_mcmm.vhd : {file_type : vhdlSource-2008}
 
+  ulx3s:
+    files:
+      - dmi_dtm_dummy.vhdl : {file_type : vhdlSource-2008}
+      - fpga/clk_gen_bypass.vhd : {file_type : vhdlSource-2008}
+      - fpga/ulx3s.tcl : {file_type : tclSource}
 targets:
+  ulx3s:
+    default_tool: diamond
+    filesets: [core, soc, fpga, ulx3s]
+    parameters :
+      - memory_size
+      - ram_init_file
+      - clk_input
+      - clk_frequency
+    tools:
+      diamond: {part: LFE5U-85F-6BG381C}
+    toplevel : toplevel
+
   nexys_a7:
     default_tool: vivado
     filesets: [core, nexys_a7, soc, fpga, debug_xilinx]

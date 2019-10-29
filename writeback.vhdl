@@ -62,22 +62,22 @@ begin
         variable j : integer;
         variable k : unsigned(3 downto 0);
     begin
-        x := "" & e_in.valid;
-        y := "" & l_in.valid;
-        z := "" & m_in.valid;
-        w := "" & d_in.valid;
+        x(0) := e_in.valid;
+        y(0) := l_in.valid;
+        z(0) := m_in.valid;
+        w(0) := d_in.valid;
         assert (to_integer(unsigned(x)) + to_integer(unsigned(y)) + to_integer(unsigned(z)) + to_integer(unsigned(w))) <= 1 severity failure;
 
-        x := "" & e_in.write_enable;
-        y := "" & l_in.write_enable;
-        z := "" & m_in.write_reg_enable;
-        w := "" & d_in.write_reg_enable;
+        x(0) := e_in.write_enable;
+        y(0) := l_in.write_enable;
+        z(0) := m_in.write_reg_enable;
+        w(0) := d_in.write_reg_enable;
         assert (to_integer(unsigned(x)) + to_integer(unsigned(y)) + to_integer(unsigned(z)) + to_integer(unsigned(w))) <= 1 severity failure;
 
-        w := "" & e_in.write_cr_enable;
-        x := "" & (e_in.write_enable and e_in.rc);
-        y := "" & (m_in.valid and m_in.rc);
-        z := "" & (d_in.valid and d_in.rc);
+        w(0) := e_in.write_cr_enable;
+        x(0) := (e_in.write_enable and e_in.rc);
+        y(0) := (m_in.valid and m_in.rc);
+        z(0) := (d_in.valid and d_in.rc);
         assert (to_integer(unsigned(w)) + to_integer(unsigned(x)) + to_integer(unsigned(y)) + to_integer(unsigned(z))) <= 1 severity failure;
 
         w_out <= WritebackToRegisterFileInit;

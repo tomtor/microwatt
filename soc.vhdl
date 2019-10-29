@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 use std.textio.all;
-use std.env.stop;
+--use std.env.stop;
 
 library work;
 use work.common.all;
@@ -237,9 +237,9 @@ begin
 	end case;
 
 	-- SIM magic exit
-	if SIM and dmi_req = '1' and dmi_addr = "11111111" and dmi_wr = '1' then
-	    stop;
-	end if;
+--	if SIM and dmi_req = '1' and dmi_addr = "11111111" and dmi_wr = '1' then
+--	    stop;
+--	end if;
     end process;
 
     -- Wishbone debug master (TODO: Add a DMI address decoder)
