@@ -67,33 +67,36 @@ architecture behaviour of decode2 is
 
 	function decode_input_reg_b (t : input_reg_b_t; insn_in : std_ulogic_vector(31 downto 0);
 				     reg_data : std_ulogic_vector(63 downto 0)) return decode_input_reg_t is
+		variable ret : decode_input_reg_t;
 	begin
 		case t is
 		when RB =>
-			return ('1', insn_rb(insn_in), reg_data);
+			ret := ('1', insn_rb(insn_in), reg_data);
 		when CONST_UI =>
-			return ('0', (others => '0'), std_ulogic_vector(resize(unsigned(insn_ui(insn_in)), 64)));
+			ret := ('0', (others => '0'), std_ulogic_vector(resize(unsigned(insn_ui(insn_in)), 64)));
 		when CONST_SI =>
-			return ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_si(insn_in)), 64)));
+			ret := ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_si(insn_in)), 64)));
 		when CONST_SI_HI =>
-			return ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_si(insn_in)) & x"0000", 64)));
+			ret := ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_si(insn_in)) & x"0000", 64)));
 		when CONST_UI_HI =>
-			return ('0', (others => '0'), std_ulogic_vector(resize(unsigned(insn_si(insn_in)) & x"0000", 64)));
+			ret := ('0', (others => '0'), std_ulogic_vector(resize(unsigned(insn_si(insn_in)) & x"0000", 64)));
 		when CONST_LI =>
-			return ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_li(insn_in)) & "00", 64)));
+			ret := ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_li(insn_in)) & "00", 64)));
 		when CONST_BD =>
-			return ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_bd(insn_in)) & "00", 64)));
+			ret := ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_bd(insn_in)) & "00", 64)));
 		when CONST_DS =>
-			return ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_ds(insn_in)) & "00", 64)));
+			ret := ('0', (others => '0'), std_ulogic_vector(resize(signed(insn_ds(insn_in)) & "00", 64)));
                 when CONST_M1 =>
-			return ('0', (others => '0'), x"FFFFFFFFFFFFFFFF");
+			ret := ('0', (others => '0'), x"FFFFFFFFFFFFFFFF");
 		when CONST_SH =>
-			return ('0', (others => '0'), x"00000000000000" & "00" & insn_in(1) & insn_in(15 downto 11));
+			ret := ('0', (others => '0'), x"00000000000000" & "00" & insn_in(1) & insn_in(15 downto 11));
 		when CONST_SH32 =>
-			return ('0', (others => '0'), x"00000000000000" & "000" & insn_in(15 downto 11));
+			ret := ('0', (others => '0'), x"00000000000000" & "000" & insn_in(15 downto 11));
 		when NONE =>
-			return ('0', (others => '0'), (others => '0'));
+			ret := ('0', (others => '0'), (others => '0'));
 		end case;
+
+		return ret;
 	end;
 
 	function decode_input_reg_c (t : input_reg_c_t; insn_in : std_ulogic_vector(31 downto 0);
