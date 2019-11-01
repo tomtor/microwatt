@@ -89,6 +89,14 @@ filesets:
       - dmi_dtm_dummy.vhdl : {file_type : vhdlSource-2008}
       - fpga/clk_gen_bypass.vhd : {file_type : vhdlSource-2008}
       - fpga/ulx3s.tcl : {file_type : tclSource}
+
+  ecp5-evn:
+    files:
+      - dmi_dtm_dummy.vhdl : {file_type : vhdlSource-2008}
+      - fpga/ecp5-evn.lpf : {file_type : LPF}
+      - fpga/clk_gen_bypass.vhd : {file_type : vhdlSource-2008}
+      - fpga/ulx3s.tcl : {file_type : tclSource}
+
 targets:
   ulx3s:
     default_tool: diamond
@@ -100,6 +108,18 @@ targets:
       - clk_frequency
     tools:
       diamond: {part: LFE5U-85F-6BG381C}
+    toplevel : toplevel
+
+  ecp5-evn:
+    default_tool: diamond
+    filesets: [core, soc, fpga, ecp5-evn]
+    parameters :
+      - memory_size
+      - ram_init_file
+      - clk_input
+      - clk_frequency
+    tools:
+      diamond: {part: LFE5U-85F-8BG381C}
     toplevel : toplevel
 
   nexys_a7:
