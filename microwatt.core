@@ -116,7 +116,7 @@ targets:
     parameters :
       - memory_size
       - ram_init_file
-      - clk_input
+      - clk_input=12000000
       - clk_frequency
     tools:
       diamond: {part: LFE5U-85F-8BG381C}
