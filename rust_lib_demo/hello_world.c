@@ -133,6 +133,13 @@ size_t strlen(const char *s)
 
 void rust_main();
 
+void crash()
+{
+	void (*fun_ptr)() = (void(*)()) 0xdeadbeef;
+	(*fun_ptr)();
+}
+
+
 #define HELLO_WORLD "Hello World\r\n"
 
 int main(void)
@@ -142,10 +149,10 @@ int main(void)
 	putstr(HELLO_WORLD, strlen(HELLO_WORLD));
 
 	rust_main();
-	while (1) {
-		unsigned char c = getchar();
-		putchar(c);
-	}
+	crash();
+
+	while (1)
+		;
 }
 
 /*

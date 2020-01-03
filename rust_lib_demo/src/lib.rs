@@ -19,6 +19,7 @@ extern crate cty;
 
 extern "C" {
     fn putchar(c: cty::c_char) -> ();
+    fn crash() -> ();
 }
 
 pub fn print(s: &str) {
@@ -38,9 +39,10 @@ pub extern "C" fn rust_main() -> ! {
     //let mut xs = Vec::new();
     for i in 2..=3 {
         let mut s: String<U128> = String::new();
-        writeln!(s, "i {}\r", i).ok();
+        //writeln!(s, "i {}\r", i).ok();
         // fp needs CRNOR instruction
-        //writeln!(s, "{}\r", 1.0 / i as f32).ok();
+        //s.clear();
+        writeln!(s, "{}\r", 1.0 / i as f32).ok();
         print(&s);
         // Also hits unimplemented instr:
         //xs.push(i);
@@ -57,6 +59,7 @@ fn panic(panic_info: &PanicInfo) -> ! {
     let mut s: String<U128> = String::new();
     writeln!(s, "{}\r", panic_info).ok();
     print(&s);
+    unsafe { crash(); }
     loop {}
 }
 

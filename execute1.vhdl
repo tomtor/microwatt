@@ -152,6 +152,7 @@ begin
 	variable sh32, mb32, me32 : std_ulogic_vector(4 downto 0);
 	variable bo, bi : std_ulogic_vector(4 downto 0);
 	variable bf, bfa : std_ulogic_vector(2 downto 0);
+	variable cr_op : std_ulogic_vector(9 downto 0);
 	variable l : std_ulogic;
 	variable next_nia : std_ulogic_vector(63 downto 0);
         variable carry_32, carry_64 : std_ulogic;
@@ -335,24 +336,33 @@ begin
 		end if;
 		result_en := '1';
 	    when OP_MCRF =>
-		bf := insn_bf(e_in.insn);
-		bfa := insn_bfa(e_in.insn);
-		v.e.write_cr_enable := '1';
-		crnum := to_integer(unsigned(bf));
-		scrnum := to_integer(unsigned(bfa));
-		v.e.write_cr_mask := num_to_fxm(crnum);
-		for i in 0 to 7 loop
-		    lo := (7-i)*4;
-		    hi := lo + 3;
-		    if i = scrnum then
-			newcrf := e_in.cr(hi downto lo);
-		    end if;
-		end loop;
-		for i in 0 to 7 loop
-		    lo := i*4;
-		    hi := lo + 3;
-		    v.e.write_cr_data(hi downto lo) := newcrf;
-		end loop;
+		report "MCRF " & to_hstring(e_in.insn);
+		cr_op := insn_cr(e_in.insn);
+		report "CR OP " & to_hstring(cr_op);
+		if cr_op = "0000000000" then -- MCRF
+		    bf := insn_bf(e_in.insn);
+		    bfa := insn_bfa(e_in.insn);
+		    v.e.write_cr_enable := '1';
+		    crnum := to_integer(unsigned(bf));
+		    scrnum := to_integer(unsigned(bfa));
+		    v.e.write_cr_mask := num_to_fxm(crnum);
+		    for i in 0 to 7 loop
+		        lo := (7-i)*4;
+		        hi := lo + 3;
+		        if i = scrnum then
+			    newcrf := e_in.cr(hi downto lo);
+		        end if;
+		    end loop;
+		    for i in 0 to 7 loop
+		        lo := i*4;
+		        hi := lo + 3;
+		        v.e.write_cr_data(hi downto lo) := newcrf;
+		    end loop;
+	        elsif cr_op = "0000100001" then -- CRNOR
+		    report "CRNOR";
+		else
+	
+		end if;
 	    when OP_MFSPR =>
 		if is_fast_spr(e_in.read_reg1) then
 		    result := e_in.read_data1;
