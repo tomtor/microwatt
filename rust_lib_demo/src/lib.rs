@@ -40,8 +40,8 @@ pub extern "C" fn rust_main() -> ! {
     for i in 2..=3 {
         let mut s: String<U128> = String::new();
         //writeln!(s, "i {}\r", i).ok();
-        // fp needs CRNOR instruction
         //s.clear();
+        // fp needs CRNOR instruction
         writeln!(s, "{}\r", 1.0 / i as f32).ok();
         print(&s);
         // Also hits unimplemented instr:

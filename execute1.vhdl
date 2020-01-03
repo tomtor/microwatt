@@ -385,7 +385,7 @@ begin
 		    when others =>
 		        report "?";
 	            end case;
-		    v.e.write_cr_data := e_in.cr(31 downto crnum+1) & crresult & e_in.cr(crnum-1 downto 0);
+		    v.e.write_cr_data := e_in.cr(31 downto btnum+1) & crresult & e_in.cr(btnum-1 downto 0);
 		end if;
 	    when OP_MFSPR =>
 		if is_fast_spr(e_in.read_reg1) then
