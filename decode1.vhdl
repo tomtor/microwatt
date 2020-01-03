@@ -88,10 +88,10 @@ architecture behaviour of decode1 is
                 2#0010000001# => '0', -- crandc
                 2#0100100001# => '0', -- creqv
                 2#0011100001# => '0', -- crnand
-                2#0000100001# => '0', -- crnor
-                2#0111000001# => '0', -- cror
-                2#0011000001# => '0', -- crorc
-                2#0110100001# => '0', -- crxor
+                2#0000100001# => '1', -- crnor
+                2#0111000001# => '1', -- cror
+                2#0110100001# => '1', -- crorc
+                2#0011000001# => '1', -- crxor
                 2#0010010110# => '1', -- isync
                 2#0000000000# => '1', -- mcrf
                 others => '0'
@@ -101,7 +101,7 @@ architecture behaviour of decode1 is
 	constant decode_op_19_array : op_19_subop_array_t := (
 		--                 unit     internal      in1         in2          in3   out   CR   CR   inv  inv  cry   cry  ldst  BR   sgn  upd  rsrv 32b  sgn  rc    lk   sgl
 		--                               op                                            in   out   A   out  in    out  len        ext                                 pipe
-                -- mcrf; cr logical ops not implemented yet
+                -- mcrf; cr logical ops not all implemented yet
 		2#000#    =>       (ALU,    OP_MCRF,      NONE,       NONE,        NONE, NONE, '1', '1', '0', '0', ZERO, '0', NONE, '0', '0', '0', '0', '0', '0', NONE, '0', '0'),
 		-- addpcis not implemented yet
 		2#001#    =>       (ALU,    OP_ILLEGAL,   NONE,       NONE,        NONE, NONE, '0', '0', '0', '0', ZERO, '0', NONE, '0', '0', '0', '0', '0', '0', RC,   '0', '1'),
