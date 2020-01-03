@@ -21,6 +21,9 @@ package insn_helpers is
     function insn_bf (insn_in : std_ulogic_vector) return std_ulogic_vector;
     function insn_bfa (insn_in : std_ulogic_vector) return std_ulogic_vector;
     function insn_cr (insn_in : std_ulogic_vector) return std_ulogic_vector;
+    function insn_bt (insn_in : std_ulogic_vector) return std_ulogic_vector;
+    function insn_ba (insn_in : std_ulogic_vector) return std_ulogic_vector;
+    function insn_bb (insn_in : std_ulogic_vector) return std_ulogic_vector;
     function insn_fxm (insn_in : std_ulogic_vector) return std_ulogic_vector;
     function insn_bo (insn_in : std_ulogic_vector) return std_ulogic_vector;
     function insn_bi (insn_in : std_ulogic_vector) return std_ulogic_vector;
@@ -128,6 +131,21 @@ package body insn_helpers is
     function insn_cr (insn_in : std_ulogic_vector) return std_ulogic_vector is
     begin
         return insn_in(10 downto 1);
+    end;
+    
+    function insn_bb (insn_in : std_ulogic_vector) return std_ulogic_vector is
+    begin
+        return insn_in(15 downto 11);
+    end;
+
+    function insn_ba (insn_in : std_ulogic_vector) return std_ulogic_vector is
+    begin
+        return insn_in(20 downto 16);
+    end;
+
+    function insn_bt (insn_in : std_ulogic_vector) return std_ulogic_vector is
+    begin
+        return insn_in(25 downto 21);
     end;
 
     function insn_fxm (insn_in : std_ulogic_vector) return std_ulogic_vector is

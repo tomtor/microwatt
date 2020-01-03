@@ -153,6 +153,9 @@ begin
 	variable bo, bi : std_ulogic_vector(4 downto 0);
 	variable bf, bfa : std_ulogic_vector(2 downto 0);
 	variable cr_op : std_ulogic_vector(9 downto 0);
+	variable bt, ba, bb : std_ulogic_vector(4 downto 0);
+	variable btnum, banum, bbnum : integer range 0 to 31;
+	variable crresult : std_ulogic;
 	variable l : std_ulogic;
 	variable next_nia : std_ulogic_vector(63 downto 0);
         variable carry_32, carry_64 : std_ulogic;
@@ -358,10 +361,31 @@ begin
 		        hi := lo + 3;
 		        v.e.write_cr_data(hi downto lo) := newcrf;
 		    end loop;
-	        elsif cr_op = "0000100001" then -- CRNOR
-		    report "CRNOR";
 		else
-	
+		    bt := insn_bt(e_in.insn);
+		    ba := insn_ba(e_in.insn);
+		    bb := insn_bb(e_in.insn);
+		    report "CR bt " & to_hstring(bt);
+		    btnum := to_integer(unsigned(bt));
+		    banum := to_integer(unsigned(ba));
+		    bbnum := to_integer(unsigned(bb));
+		    case cr_op is
+	            when "0000100001" => -- CRNOR
+		        report "CRNOR";
+			crresult := not(e_in.cr(banum) or e_in.cr(bbnum));
+	            when "0110100001" => -- CRORC
+		        report "CRORC";
+			crresult := (e_in.cr(banum) or not e_in.cr(bbnum));
+	            when "0011000001" => -- CRXOR
+		        report "CRXOR";
+			crresult := (e_in.cr(banum) xor e_in.cr(bbnum));
+	            when "0111000001" => -- CROR
+		        report "CROR";
+			crresult := (e_in.cr(banum) or e_in.cr(bbnum));
+		    when others =>
+		        report "?";
+	            end case;
+		    v.e.write_cr_data := e_in.cr(31 downto crnum+1) & crresult & e_in.cr(crnum-1 downto 0);
 		end if;
 	    when OP_MFSPR =>
 		if is_fast_spr(e_in.read_reg1) then
