@@ -366,9 +366,12 @@ begin
 		    ba := insn_ba(e_in.insn);
 		    bb := insn_bb(e_in.insn);
 		    report "CR bt " & to_hstring(bt);
-		    btnum := to_integer(unsigned(bt));
-		    banum := to_integer(unsigned(ba));
-		    bbnum := to_integer(unsigned(bb));
+		    report "CR ba " & to_hstring(ba);
+		    report "CR bb " & to_hstring(bb);
+		    report "CR IN " & to_bstring(e_in.cr);
+		    btnum := 31 - to_integer(unsigned(bt));
+		    banum := 31 - to_integer(unsigned(ba));
+		    bbnum := 31 - to_integer(unsigned(bb));
 		    case cr_op is
 	            when "0000100001" => -- CRNOR
 		        report "CRNOR";
@@ -385,6 +388,8 @@ begin
 		    when others =>
 		        report "?";
 	            end case;
+		    v.e.write_cr_mask := num_to_fxm(btnum / 4);
+		    report "CR OUT " & to_bstring(e_in.cr(31 downto btnum+1) & crresult & e_in.cr(btnum-1 downto 0));
 		    v.e.write_cr_data := e_in.cr(31 downto btnum+1) & crresult & e_in.cr(btnum-1 downto 0);
 		end if;
 	    when OP_MFSPR =>
