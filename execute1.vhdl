@@ -373,6 +373,15 @@ begin
 		    banum := 31 - to_integer(unsigned(ba));
 		    bbnum := 31 - to_integer(unsigned(bb));
 		    case cr_op is
+	            when "0011100001" => -- CRNAND
+		        report "CRNAND";
+			crresult := not(e_in.cr(banum) and e_in.cr(bbnum));
+	            when "0010000001" => -- CRANDC
+		        report "CRANDC";
+			crresult := (e_in.cr(banum) and not e_in.cr(bbnum));
+	            when "0100000001" => -- CRAND
+		        report "CRAND";
+			crresult := (e_in.cr(banum) and e_in.cr(bbnum));
 	            when "0000100001" => -- CRNOR
 		        report "CRNOR";
 			crresult := not(e_in.cr(banum) or e_in.cr(bbnum));
