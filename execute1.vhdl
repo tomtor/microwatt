@@ -368,7 +368,7 @@ begin
 		    report "CR bt " & to_hstring(bt);
 		    report "CR ba " & to_hstring(ba);
 		    report "CR bb " & to_hstring(bb);
-		    report "CR IN " & to_bstring(e_in.cr);
+		    report "CR IN  " & to_bstring(e_in.cr);
 		    btnum := 31 - to_integer(unsigned(bt));
 		    banum := 31 - to_integer(unsigned(ba));
 		    bbnum := 31 - to_integer(unsigned(bb));
@@ -388,7 +388,8 @@ begin
 		    when others =>
 		        report "?";
 	            end case;
-		    v.e.write_cr_mask := num_to_fxm(btnum / 4);
+		    v.e.write_cr_mask := num_to_fxm((31-btnum) / 4);
+		    report "CR MASK " & to_bstring(v.e.write_cr_mask);
 		    report "CR OUT " & to_bstring(e_in.cr(31 downto btnum+1) & crresult & e_in.cr(btnum-1 downto 0));
 		    v.e.write_cr_data := e_in.cr(31 downto btnum+1) & crresult & e_in.cr(btnum-1 downto 0);
 		end if;
